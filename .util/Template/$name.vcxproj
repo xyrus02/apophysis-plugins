@@ -138,7 +138,8 @@
       </ProfileGuidedDatabase>
     </Link>
     <PostBuildEvent>
-      <Command>COPY /Y "$(OutDir)$(TargetName).dll" "$(SolutionDir)\out\$(TargetName).dll"</Command>
+      <Command>IF NOT EXIST "$(SolutionDir).output" MKDIR "$(SolutionDir).output"
+COPY /Y "$(TargetPath)" "$(SolutionDir).output\$(TargetName).$(PlatformShortName).$(TargetExt)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -161,7 +162,8 @@
       </ProfileGuidedDatabase>
     </Link>
     <PostBuildEvent>
-      <Command>COPY /Y "$(OutDir)$(TargetName).dll" "$(SolutionDir)\out\$(TargetName)$(PlatformArchitecture).dll"</Command>
+      <Command>IF NOT EXIST "$(SolutionDir).output" MKDIR "$(SolutionDir).output"
+COPY /Y "$(TargetPath)" "$(SolutionDir).output\$(TargetName).$(PlatformShortName).$(TargetExt)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

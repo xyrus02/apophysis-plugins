@@ -138,8 +138,8 @@
       </ProfileGuidedDatabase>
     </Link>
     <PostBuildEvent>
-      <Command>IF NOT EXIST "$(SolutionDir)..\output" MKDIR "$(SolutionDir)..\output"
-COPY /Y "$(TargetPath)" "$(SolutionDir)..\output\$(TargetName).$(PlatformShortName).$(TargetExt)"</Command>
+      <Command>IF NOT EXIST "$(SolutionDir).output" MKDIR "$(SolutionDir).output"
+COPY /Y "$(TargetPath)" "$(SolutionDir).output\$(TargetName).$(PlatformShortName).$(TargetExt)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -162,8 +162,8 @@ COPY /Y "$(TargetPath)" "$(SolutionDir)..\output\$(TargetName).$(PlatformShortNa
       </ProfileGuidedDatabase>
     </Link>
     <PostBuildEvent>
-      <Command>IF NOT EXIST "$(SolutionDir)..\output" MKDIR "$(SolutionDir)..\output"
-COPY /Y "$(TargetPath)" "$(SolutionDir)..\output\$(TargetName).$(PlatformShortName).$(TargetExt)"</Command>
+      <Command>IF NOT EXIST "$(SolutionDir).output" MKDIR "$(SolutionDir).output"
+COPY /Y "$(TargetPath)" "$(SolutionDir).output\$(TargetName).$(PlatformShortName).$(TargetExt)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

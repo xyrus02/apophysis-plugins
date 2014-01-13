@@ -8,6 +8,7 @@ set params=/NOLOGO /property:Configuration=Release /property:Platform=Win32
 set params=/NOLOGO /property:Configuration=Release /property:Platform=x64
 "%tool%" %params% /VERBOSITY:%verb% "%~d0%~p0%1\%1.vcxproj"
 if not exist "%~d0%~p0%1\.output" goto eof
+if not exist "%~d0%~p0.output" mkdir "%~d0%~p0.output"
 copy /y "%~d0%~p0%1\.output\*.dll" "%~d0%~p0.output" 
 rmdir /s /q "%~d0%~p0%1\.output"
 goto eof

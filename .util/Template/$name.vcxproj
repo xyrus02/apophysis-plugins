@@ -139,7 +139,7 @@
     </Link>
     <PostBuildEvent>
       <Command>IF NOT EXIST "$(SolutionDir).output" MKDIR "$(SolutionDir).output"
-COPY /Y "$(TargetPath)" "$(SolutionDir).output\$(TargetName).$(PlatformShortName).$(TargetExt)"</Command>
+COPY /Y "$(TargetPath)" "$(SolutionDir).output\$(TargetName).$(PlatformShortName)$(TargetExt)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -163,7 +163,7 @@ COPY /Y "$(TargetPath)" "$(SolutionDir).output\$(TargetName).$(PlatformShortName
     </Link>
     <PostBuildEvent>
       <Command>IF NOT EXIST "$(SolutionDir).output" MKDIR "$(SolutionDir).output"
-COPY /Y "$(TargetPath)" "$(SolutionDir).output\$(TargetName).$(PlatformShortName).$(TargetExt)"</Command>
+COPY /Y "$(TargetPath)" "$(SolutionDir).output\$(TargetName).$(PlatformShortName)$(TargetExt)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

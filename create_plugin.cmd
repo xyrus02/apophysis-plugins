@@ -1,28 +1,42 @@
 @echo off
-setlocal enableextensions
-set prof=vcpp2012
-set dd=%~d0%~p0
-if "%1"=="" goto noprof
-if not exist "%dd%\.util\%1" goto noprof
-set prof=%1
-shift
-:noprof
-echo Using profile "%prof%"
-if "%1"=="" goto noarg
-echo Creating plugin "%1"
-:noarg
-echo.
-if %dd:~-1%==\ set dd=%dd:~0,-1%
-set dir=%dd%\.util
-"%dir%\txpand" -w "%dd%\~tmp" -o "%dd%" -t "%dir%\%prof%" %1
-if not exist "%dd%\~tmp" goto exit
-echo %prof%>"%dd%\%1\.profile"
-for /f "tokens=*" %%a in (%dd%\~tmp) do set pname=%%a
-del /q "%dd%\~tmp"
-if not exist "%dd%\%pname%\%pname%.vcxproj" goto exit
-type "%dd%\%pname%\%pname%.vcxproj" | "%dir%\sxtract" "\u003CProjectGuid\u003E\u007B([a-z\d\x2D]+)\u007D\u003C\u002FProjectGuid\u003E" > "%dd%\~tmp"
-if not exist "%dd%\~tmp" goto exit
-for /f "tokens=*" %%a in (%dd%\~tmp) do set pguid=%%a
-del /q "%dd%\~tmp"
-"%dir%\slnadd" "%dd%\all_plugins.sln" "%pname%\%pname%.vcxproj" "%pguid%"
-:exit
+
+:SetupEnvironment
+	setlocal enableextensions
+
+	set LocalDir=%~d0%~p0
+	if %LocalDir:~-1%==\ set LocalDir=%LocalDir:~0,-1%
+	set UtilDir=%LocalDir%\.util
+
+:SetupProfile
+	set BuildProfile=vcpp2012
+	if "%1"=="" goto ConsumeProfile
+	if not exist "%LocalDir%\.util\%1" goto ConsumeProfile
+	set BuildProfile=%1
+	shift
+
+:ConsumeProfile
+	echo Using profile "%BuildProfile%"
+	if "%1"=="" goto ExpandTemplate
+	echo Creating plugin "%1"
+
+:ExpandTemplate
+	echo.
+	"%UtilDir%\txpand" -w "%LocalDir%\~tmp" -o "%LocalDir%" -t "%UtilDir%\%BuildProfile%" %1
+	
+	if not exist "%LocalDir%\~tmp" goto ExitScript
+	rem echo %BuildProfile%>"%LocalDir%\%1\.profile"
+	
+:AddProjectToSolution
+	for /f "tokens=*" %%a in (%LocalDir%\~tmp) do set ProjectName=%%a
+	del /q "%LocalDir%\~tmp"
+	
+	if not exist "%LocalDir%\%ProjectName%\%ProjectName%.vcxproj" goto ExitScript
+	type "%LocalDir%\%ProjectName%\%ProjectName%.vcxproj" | "%UtilDir%\sxtract" "\u003CProjectGuid\u003E\u007B([a-z\d\x2D]+)\u007D\u003C\u002FProjectGuid\u003E" > "%LocalDir%\~tmp"
+
+	if not exist "%LocalDir%\~tmp" goto ExitScript
+	for /f "tokens=*" %%a in (%LocalDir%\~tmp) do set ProjectGuid=%%a
+	
+	del /q "%LocalDir%\~tmp"
+	"%UtilDir%\slnadd" "%LocalDir%\all_plugins.sln" "%ProjectName%\%ProjectName%.vcxproj" "%ProjectGuid%"
+	
+:ExitScript

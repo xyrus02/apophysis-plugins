@@ -1,36 +1,20 @@
 /*
-Apophysis Plugin: curl_sp
+    Apophysis Plugin: curl_sp
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-
-#pragma once
-
-typedef struct
-{
-	double curl_sp_pow;
-	double curl_sp_c1;
-	double curl_sp_c2;
-	double curl_sp_sx;
-	double curl_sp_sy;
-	double curl_sp_dc;
-	double c2_x2, dc_adjust;
-	double power_inv;
-} Variables;
-
-#include "plugin.h"
 
 #define power vp->var.curl_sp_pow
 #define c1 vp->var.curl_sp_c1
@@ -60,12 +44,39 @@ typedef struct
 #define vv    (vp->vvar)
 #define color (*vp->pColor)
 
-APO_PLUGIN("curl_sp");
-APO_VARIABLES(
-	VAR_REAL(curl_sp_pow, 1.0),
-	VAR_REAL(curl_sp_c1, 0.0),
-	VAR_REAL(curl_sp_c2, 0.0),
-	VAR_REAL(curl_sp_sx, 0.0),
-	VAR_REAL(curl_sp_sy, 0.0),
-	VAR_REAL(curl_sp_dc, 0.0)
-);
+int PluginVarPrepare(Variation* vp)
+{
+	c2_x2     = 2.0 * c2;
+	dc_adjust = 0.1 * dc;
+	power_inv = 1.0 / zeps(power);
+
+	if (power == 0) 
+	{
+		power = EPS;
+	}
+
+    return 1;
+}
+
+int PluginVarCalc(Variation* vp)
+{
+	const double x = powq4c(tx, power);
+	const double y = powq4c(ty, power);
+	const double z = powq4c(tz, power);
+
+	const double d = sqr(x) - sqr(y);
+
+	const double re = spread(c1 * x + c2    * d,     sx) + 1.0;
+	const double im = spread(c1 * y + c2_x2 * x * y, sy);
+
+	const double c = powq4c(sqr(re) + sqr(im), power_inv);
+	const double r = vp->vvar / c;
+
+	px += (x * re + y * im) * r;
+	py += (y * re - x * im) * r;
+	pz += (z * vv         ) / c;
+
+	color = range(0, color + dc_adjust * c, 1);
+
+    return 1;
+}

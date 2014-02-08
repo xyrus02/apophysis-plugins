@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{fe39270b-73cf-48c3-9ea0-32065d74dfd9}</ProjectGuid>
-    <RootNamespace>curl_sp</RootNamespace>
-    <ProjectName>curl_sp</ProjectName>
+    <ProjectGuid>{10bbd16c-a6e5-4db3-87b8-27841a15aa04}</ProjectGuid>
+    <RootNamespace>pre_log</RootNamespace>
+    <ProjectName>pre_log</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -97,7 +97,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ModuleDefinitionFile>curl_sp.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>pre_log.def</ModuleDefinitionFile>
       <ProfileGuidedDatabase>
       </ProfileGuidedDatabase>
     </Link>
@@ -114,7 +114,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ModuleDefinitionFile>curl_sp.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>pre_log.def</ModuleDefinitionFile>
       <ProfileGuidedDatabase>
       </ProfileGuidedDatabase>
     </Link>
@@ -133,7 +133,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <ModuleDefinitionFile>curl_sp.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>pre_log.def</ModuleDefinitionFile>
       <ProfileGuidedDatabase>
       </ProfileGuidedDatabase>
     </Link>
@@ -157,7 +157,7 @@ COPY /Y "$(TargetPath)" "$(SolutionDir).output\$(TargetName).$(PlatformShortName
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <ModuleDefinitionFile>curl_sp.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>pre_log.def</ModuleDefinitionFile>
       <ProfileGuidedDatabase>
       </ProfileGuidedDatabase>
     </Link>
@@ -174,10 +174,10 @@ COPY /Y "$(TargetPath)" "$(SolutionDir).output\$(TargetName).$(PlatformShortName
     <ClInclude Include="apoplugin_msvc.h" />
     <ClInclude Include="apoplugin_msvc_novar.h" />
     <ClInclude Include="apoplugin_msvc_var.h" />
-	<ClInclude Include="curl_sp.h" />
+	<ClInclude Include="pre_log.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="curl_sp.def" />
+    <None Include="pre_log.def" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

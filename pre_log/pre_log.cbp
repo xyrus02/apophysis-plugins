@@ -25,7 +25,9 @@
 			</Target>
 		</Build>
 		<Unit filename="apoplugin.h" />
-		<Unit filename="pre_log.c">
+		<Unit filename="variables.h" />
+		<Unit filename="pre_log.h" />
+		<Unit filename="apoplugin.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Extensions>

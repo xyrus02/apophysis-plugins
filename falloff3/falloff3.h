@@ -29,15 +29,10 @@
 // adjustment coefficients
 #define scatter_adjust 0.04
 
-// blur types
-#define bt_gaussian 0
-#define bt_radial   1
-#define bt_log		2
-
 inline double log_scale(const double x) { return x == 0 ? 0 : log((fabs(x) + 1.0) * M_E) * sgnd(x) / M_E; }
 inline double log_map(const double x) { return x == 0 ? 0 : (M_E + log(x * M_E)) / 4.0 * sgnd(x); }
 
-inline double4 __gaussian(Variation* vp, const double4 v_in, const double4 mul, const double4 random, const double3 center, const double dist) {
+inline double4 __bt_gaussian(Variation* vp, const double4 v_in, const double4 mul, const double4 random, const double dist) {
 	const double sigma	= dist * random.y * M_2PI;
 	const double phi	= dist * random.z * M_PI;
 	const double rad	= dist * random.x; 
@@ -53,14 +48,13 @@ inline double4 __gaussian(Variation* vp, const double4 v_in, const double4 mul, 
 	return result;
 }
 
-inline double4 __radial(Variation* vp, const double4 v_in, const double4 mul, const double4 random, const double3 center, const double dist) {
+inline double4 __bt_radial(Variation* vp, const double4 v_in, const double4 mul, const double4 random, const double dist) {
 	if (v_in.x == 0 && v_in.y == 0 && v_in.z == 0)
 		return v_in;
 
 	const double r_in = sqrt(sqr(v_in.x) + sqr(v_in.y) + sqr(v_in.z));
-	const double r_in_minus_c = sqrt(sqr(v_in.x - center.x) + sqr(v_in.y - center.y) + sqr(v_in.z - center.z));
 
-	const double a = mul.y * dist + param(alpha) * maxd(param(d) - r_in_minus_c, 0) / sqrt(param(r_max));
+	const double a = mul.y * dist + param(alpha) * dist / sqrt(param(r_max));
 	const double b = mul.z * dist;
 
 	const double sigma = asin(v_in.z / r_in) + b * random.z;
@@ -78,7 +72,7 @@ inline double4 __radial(Variation* vp, const double4 v_in, const double4 mul, co
 	return result;
 }
 
-inline double4 __logarithmic(Variation* vp, const double4 v_in, const double4 mul, const double4 random, const double3 center, const double dist) {
+inline double4 __bt_log(Variation* vp, const double4 v_in, const double4 mul, const double4 random, const double dist) {
 	const double coeff = param(r_max) <= EPS ? dist : dist + param(alpha) * (log_map(dist) - dist);
 	const double4 result = {
 		v_in.x + log_map(mul.x) * log_scale(random.x) * coeff,
@@ -86,6 +80,23 @@ inline double4 __logarithmic(Variation* vp, const double4 v_in, const double4 mu
 		v_in.z + log_map(mul.z) * log_scale(random.z) * coeff,
 		v_in.c + log_map(mul.c) * log_scale(random.c) * coeff };
 	return result;
+}
+
+inline double __bs_circle(Variation* vp, const double4 v_in, const double3 center) {
+	const double distance = sqrt(
+		sqr(v_in.x - center.x) +
+		sqr(v_in.y - center.y) +
+		sqr(v_in.z - center.z));
+	return distance;
+}
+
+inline double __bs_square(Variation* vp, const double4 v_in, const double3 center) {
+	const double distance = mind(fabs(
+		v_in.x - center.x), mind(fabs(
+		v_in.y - center.y),     (fabs(
+		v_in.z - center.z)  
+	)));
+	return distance;
 }
 
 int PluginVarPrepare(Variation* vp)
@@ -96,18 +107,19 @@ int PluginVarPrepare(Variation* vp)
 		param(falloff3_mul_z),
 		param(falloff3_mul_c) };
 	double3 c = {
-		param(falloff3_x0),
-		param(falloff3_y0),
-		param(falloff3_z0) };
+		param(falloff3_center_x),
+		param(falloff3_center_y),
+		param(falloff3_center_z) };
 
-	param(r_max) = scatter_adjust * param(falloff3_scatter);
-	param(d) = param(falloff3_mindist);
+	param(r_max) = scatter_adjust * param(falloff3_blur_strength);
+	param(d) = param(falloff3_min_distance);
 
 	param(mul) = m;
 	param(center) = c;
 
-	param(invert) = param(falloff3_invert);
-	param(type) = param(falloff3_type);
+	param(invert) = param(falloff3_invert_distance);
+	param(type) = param(falloff3_blur_type);
+	param(shape) = param(falloff3_blur_shape);
 	param(alpha) = param(falloff3_alpha);
 
     return 1;
@@ -122,8 +134,6 @@ int PluginVarCalc(Variation* vp)
 	{ *(vp->pFTx), *(vp->pFTy), *(vp->pFTz), *(vp->pColor) };
 #endif
 
-	param(custom_out) = 0;
-
 	const double3 center = param(center);
 	const double4 mul = param(mul);
 
@@ -134,19 +144,17 @@ int PluginVarCalc(Variation* vp)
 		random_double, random_double,
 		random_double, random_double };
 
-	const double dist_a = sqrt(
-		sqr(v_in.x - center.x) +
-		sqr(v_in.y - center.y) +
-		sqr(v_in.z - center.z));
-	const double dist_b = param(invert) != 0 ?
-		mind(1 - dist_a, 0) :
-		mind(dist_a, 0);
-	const double dist = mind((dist_b - d_0) * r_max, 0);
+	double radius; switch (param(shape)) {
+	case bs_circle: 	radius = __bs_circle(vp, v_in, center); 	break;
+	case bs_square: 	radius = __bs_square(vp, v_in, center); 	break;
+	}
+
+	const double dist = mind(((param(invert) != 0 ? mind(1 - radius, 0) : mind(radius, 0)) - d_0) * r_max, 0);
 
 	double4 v_out; switch (param(type)) {
-	case bt_gaussian: 	v_out = __gaussian		(vp, v_in, mul, random, center, dist); 	break;
-	case bt_radial: 	v_out = __radial		(vp, v_in, mul, random, center, dist); 	break;
-	case bt_log: 		v_out = __logarithmic	(vp, v_in, mul, random, center, dist); 	break;
+	case bt_gaussian: 	v_out = __bt_gaussian	(vp, v_in, mul, random, dist); 	break;
+	case bt_radial: 	v_out = __bt_radial		(vp, v_in, mul, random, dist); 	break;
+	case bt_log: 		v_out = __bt_log		(vp, v_in, mul, random, dist); 	break;
 	}
 
 	// write back output vector
@@ -160,19 +168,9 @@ int PluginVarCalc(Variation* vp)
 	*(vp->pFTy) = v_out.y * weight;
 	*(vp->pFTz) = v_out.z * weight;
 #else
-	if (param(custom_out) != 0)
-	{
-		*(vp->pFPx) += v_out.x * weight;
-		*(vp->pFPy) += v_out.y * weight;
-		*(vp->pFPz) += v_out.z * weight;
-	}
-	else
-	{
-		*(vp->pFPx) = v_out.x * weight;
-		*(vp->pFPy) = v_out.y * weight;
-		*(vp->pFPz) = v_out.z * weight;
-	}
-	
+	*(vp->pFPx) += v_out.x * weight;
+	*(vp->pFPy) += v_out.y * weight;
+	*(vp->pFPz) += v_out.z * weight;
 #endif
 #endif
 

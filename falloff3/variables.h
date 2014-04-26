@@ -26,10 +26,14 @@ typedef struct {
 	int falloff3_invert;
 	int falloff3_type;
 
+	double falloff3_alpha;
+
 	double4 mul;
 	double3 center;
 	double d, r_max;
 	int invert, type;
+	int custom_out;
+	double alpha;
 } Variables;
 
 #define _USE_MATH_DEFINES
@@ -54,5 +58,7 @@ APO_VARIABLES(
 	VAR_REAL(falloff3_z0, 0.0),
 
 	VAR_INTEGER_RANGE(falloff3_invert, 0, 1, 0),
-	VAR_INTEGER_RANGE(falloff3_type, 0, 2, 0),
+	VAR_INTEGER_RANGE(falloff3_type, 0, 3, 0),
+
+	VAR_REAL(falloff3_alpha, 0.0),
 );

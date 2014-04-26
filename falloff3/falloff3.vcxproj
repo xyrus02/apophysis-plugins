@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -101,6 +101,9 @@
       <ProfileGuidedDatabase>
       </ProfileGuidedDatabase>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /y "$(TargetPath)" "$(ProjectDir)..\.util\.apo\Plugins\$(TargetName).$(PROCESSOR_ARCHITECTURE).dll"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -118,6 +121,9 @@
       <ProfileGuidedDatabase>
       </ProfileGuidedDatabase>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /y "$(TargetPath)" "$(ProjectDir)..\.util\.apo\Plugins\$(TargetName).$(PROCESSOR_ARCHITECTURE).dll"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -138,8 +144,7 @@
       </ProfileGuidedDatabase>
     </Link>
     <PostBuildEvent>
-      <Command>IF NOT EXIST "$(SolutionDir).output" MKDIR "$(SolutionDir).output"
-COPY /Y "$(TargetPath)" "$(SolutionDir).output\$(TargetName).$(PlatformShortName)$(TargetExt)"</Command>
+      <Command>copy /y "$(TargetPath)" "$(ProjectDir)..\.util\.apo\Plugins\$(TargetName).$(PROCESSOR_ARCHITECTURE).dll"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -162,19 +167,18 @@ COPY /Y "$(TargetPath)" "$(SolutionDir).output\$(TargetName).$(PlatformShortName
       </ProfileGuidedDatabase>
     </Link>
     <PostBuildEvent>
-      <Command>IF NOT EXIST "$(SolutionDir).output" MKDIR "$(SolutionDir).output"
-COPY /Y "$(TargetPath)" "$(SolutionDir).output\$(TargetName).$(PlatformShortName)$(TargetExt)"</Command>
+      <Command>copy /y "$(TargetPath)" "$(ProjectDir)..\.util\.apo\Plugins\$(TargetName).$(PROCESSOR_ARCHITECTURE).dll"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="apoplugin_msvc.cpp" />
   </ItemGroup>
   <ItemGroup>
-	<ClInclude Include="variables.h" />
+    <ClInclude Include="variables.h" />
     <ClInclude Include="apoplugin_msvc.h" />
     <ClInclude Include="apoplugin_msvc_novar.h" />
     <ClInclude Include="apoplugin_msvc_var.h" />
-	<ClInclude Include="falloff3.h" />
+    <ClInclude Include="falloff3.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="falloff3.def" />

@@ -6,7 +6,7 @@
    <xform weight="0.5" color="0" linear="1" coefs="1 0 0 1 -1 1" opacity="1" />
    <xform weight="0.5" color="0" curl3D="0.313" coefs="0.569773 0 0 0.569773 0 0" curl3D_cx="0" curl3D_cy="0" curl3D_cz="-0.241" opacity="1" />
    <xform weight="0.5" color="0" ztranslate="-0.444" julian="0.166" coefs="1 0 0 1 0 0" post="1 0 0 1 -1 0" julian_power="2" julian_dist="1" opacity="0" />
-   <finalxform color="0" symmetry="1" falloff3="1" coefs="1 0 0 1 0 0" falloff3_scatter="2" falloff3_mindist="1" falloff3_mul_x="1" falloff3_mul_y="1" falloff3_mul_z="0" falloff3_mul_c="0" falloff3_x0="0" falloff3_y0="0" falloff3_z0="0" falloff3_invert="0" falloff3_type="0" falloff3_alpha="0" />
+   <finalxform color="0" symmetry="1" falloff3="1" coefs="1 0 0 1 0 0" falloff3_blur_type="0" falloff3_blur_strength="2" falloff3_min_distance="1" falloff3_invert_distance="0" falloff3_mul_x="1" falloff3_mul_y="1" falloff3_mul_z="0" falloff3_mul_c="0" falloff3_center_x="0" falloff3_center_y="0" falloff3_center_z="0" falloff3_alpha="0" />
    <palette count="256" format="RGB">
       8A65578E69658E6B678F6E6991706993736A94746B96756C
       906F6989696483635F7C5C5875565272514B6F4C446E4A42

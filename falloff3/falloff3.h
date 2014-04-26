@@ -102,25 +102,25 @@ inline double __bs_square(Variation* vp, const double4 v_in, const double3 cente
 int PluginVarPrepare(Variation* vp)
 {
 	double4 m = {
-		param(falloff3_mul_x),
-		param(falloff3_mul_y),
-		param(falloff3_mul_z),
-		param(falloff3_mul_c) };
+		param(fo_mul_x),
+		param(fo_mul_y),
+		param(fo_mul_z),
+		param(fo_mul_c) };
 	double3 c = {
-		param(falloff3_center_x),
-		param(falloff3_center_y),
-		param(falloff3_center_z) };
+		param(fo_c_x),
+		param(fo_c_y),
+		param(fo_c_z) };
 
-	param(r_max) = scatter_adjust * param(falloff3_blur_strength);
-	param(d) = param(falloff3_min_distance);
+	param(r_max) = scatter_adjust * param(fo_blur_strength);
+	param(d) = param(fo_min_distance);
 
 	param(mul) = m;
 	param(center) = c;
 
-	param(invert) = param(falloff3_invert_distance);
-	param(type) = param(falloff3_blur_type);
-	param(shape) = param(falloff3_blur_shape);
-	param(alpha) = param(falloff3_alpha);
+	param(invert) = param(fo_inv_distance);
+	param(type) = param(fo_blur_type);
+	param(shape) = param(fo_blur_shape);
+	param(alpha) = param(fo_alpha);
 
     return 1;
 }

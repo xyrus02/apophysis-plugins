@@ -4,7 +4,7 @@
 	if "%1"=="" goto PrintErrorAndExit
 
 :ExecuteMsBuild
-	set MsBuildLocation=C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe
+	set MsBuildLocation=%WinDir%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe
 	set MsBuildParams=/NOLOGO /property:Configuration=Release /VERBOSITY:normal
 
 	if not exist "%~d0%~p0%1\%1.vcxproj" goto ExecuteMinGw

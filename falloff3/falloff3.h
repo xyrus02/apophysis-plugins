@@ -17,14 +17,14 @@
 */
 
 //few macros to let me copy-paste MetaCore variation code :)
-#define weight (vp->vvar)
-#define param(x) (vp->var.x)
+#define weight			(vp->vvar)
+#define param(x)		(vp->var.x)
 
-#define mind(x, x0) (x<x0?x0:x)
-#define maxd(x, x1) (x>x1?x1:x)
-#define sgnd(x)     (x< 0?-1:1)
+#define mind(x, x0)		(x<x0?x0:x)
+#define maxd(x, x1)		(x>x1?x1:x)
+#define sgnd(x)			(x< 0?-1:1)
 
-#define random_double  ((((rand()^(rand()<<15))&0xfffffff)*3.72529e-09)-0.5)
+#define random_double ((((rand()^(rand()<<15))&0xfffffff)*3.72529e-09)-0.5)
 
 // adjustment coefficients
 #define scatter_adjust 0.04
@@ -47,7 +47,6 @@ inline double4 __bt_gaussian(Variation* vp, const double4 v_in, const double4 mu
 		v_in.c + mul.c * dist * random.c };
 	return result;
 }
-
 inline double4 __bt_radial(Variation* vp, const double4 v_in, const double4 mul, const double4 random, const double dist) {
 	if (v_in.x == 0 && v_in.y == 0 && v_in.z == 0)
 		return v_in;
@@ -71,7 +70,6 @@ inline double4 __bt_radial(Variation* vp, const double4 v_in, const double4 mul,
 		v_in.c + mul.c * random.c * dist };
 	return result;
 }
-
 inline double4 __bt_log(Variation* vp, const double4 v_in, const double4 mul, const double4 random, const double dist) {
 	const double coeff = param(r_max) <= EPS ? dist : dist + param(alpha) * (log_map(dist) - dist);
 	const double4 result = {
@@ -89,7 +87,6 @@ inline double __bs_circle(Variation* vp, const double4 v_in, const double3 cente
 		sqr(v_in.z - center.z));
 	return distance;
 }
-
 inline double __bs_square(Variation* vp, const double4 v_in, const double3 center) {
 	const double distance = mind(fabs(
 		v_in.x - center.x), mind(fabs(
@@ -124,7 +121,6 @@ int PluginVarPrepare(Variation* vp)
 
     return 1;
 }
-
 int PluginVarCalc(Variation* vp)
 {
 	const double4 v_in =
@@ -145,8 +141,8 @@ int PluginVarCalc(Variation* vp)
 		random_double, random_double };
 
 	double radius; switch (param(shape)) {
-	case bs_circle: 	radius = __bs_circle(vp, v_in, center); 	break;
-	case bs_square: 	radius = __bs_square(vp, v_in, center); 	break;
+	case bs_circle: 	radius = __bs_circle	(vp, v_in, center); 	break;
+	case bs_square: 	radius = __bs_square	(vp, v_in, center); 	break;
 	}
 
 	const double dist = mind(((param(invert) != 0 ? mind(1 - radius, 0) : mind(radius, 0)) - d_0) * r_max, 0);
@@ -158,21 +154,21 @@ int PluginVarCalc(Variation* vp)
 	}
 
 	// write back output vector
-#ifdef io_post
-	*(vp->pFPx) = v_out.x * weight;
-	*(vp->pFPy) = v_out.y * weight;
-	*(vp->pFPz) = v_out.z * weight;
-#else
-#ifdef io_pre
-	*(vp->pFTx) = v_out.x * weight;
-	*(vp->pFTy) = v_out.y * weight;
-	*(vp->pFTz) = v_out.z * weight;
-#else
-	*(vp->pFPx) += v_out.x * weight;
-	*(vp->pFPy) += v_out.y * weight;
-	*(vp->pFPz) += v_out.z * weight;
-#endif
-#endif
+	#ifdef io_post
+		*(vp->pFPx) = v_out.x * weight;
+		*(vp->pFPy) = v_out.y * weight;
+		*(vp->pFPz) = v_out.z * weight;
+	#else
+		#ifdef io_pre
+			*(vp->pFTx) = v_out.x * weight;
+			*(vp->pFTy) = v_out.y * weight;
+			*(vp->pFTz) = v_out.z * weight;
+		#else
+			*(vp->pFPx) += v_out.x * weight;
+			*(vp->pFPy) += v_out.y * weight;
+			*(vp->pFPz) += v_out.z * weight;
+		#endif
+	#endif
 
 	// write back output color
 	*(vp->pColor) = fabs(fmod(v_out.c, 1.0));

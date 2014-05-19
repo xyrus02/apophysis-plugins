@@ -25,14 +25,14 @@ typedef struct
 APO_PLUGIN("julian3Dx");
 APO_VARIABLES(
 	VAR_INTEGER_NONZERO(julian3Dx_power, 2),
-	VAR_REAL(julian3Dx_dist, 1),
+	VAR_REAL(julian3Dx_dist, 1.0),
 
-	VAR_REAL(julian3Dx_a, 1),
-	VAR_REAL(julian3Dx_b, 0),
-	VAR_REAL(julian3Dx_c, 0),
-	VAR_REAL(julian3Dx_d, 1),
-	VAR_REAL(julian3Dx_e, 0),
-	VAR_REAL(julian3Dx_f, 0)
+	VAR_REAL(julian3Dx_a, 1.0),
+	VAR_REAL(julian3Dx_b, 0.0),
+	VAR_REAL(julian3Dx_c, 0.0),
+	VAR_REAL(julian3Dx_d, 1.0),
+	VAR_REAL(julian3Dx_e, 0.0),
+	VAR_REAL(julian3Dx_f, 0.0)
 );
 
 #define power (vp->var.julian3Dx_power)

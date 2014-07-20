@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{<%GUID%>}</ProjectGuid>
-    <RootNamespace><%NAME%></RootNamespace>
-    <ProjectName><%NAME%></ProjectName>
+    <ProjectGuid>{d09d0f05-4741-4b3b-a292-790f84ac6343}</ProjectGuid>
+    <RootNamespace>post_mirror</RootNamespace>
+    <ProjectName>post_mirror</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -97,7 +97,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ModuleDefinitionFile><%NAME%>.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>post_mirror.def</ModuleDefinitionFile>
       <ProfileGuidedDatabase>
       </ProfileGuidedDatabase>
     </Link>
@@ -117,7 +117,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ModuleDefinitionFile><%NAME%>.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>post_mirror.def</ModuleDefinitionFile>
       <ProfileGuidedDatabase>
       </ProfileGuidedDatabase>
     </Link>
@@ -139,7 +139,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <ModuleDefinitionFile><%NAME%>.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>post_mirror.def</ModuleDefinitionFile>
       <ProfileGuidedDatabase>
       </ProfileGuidedDatabase>
     </Link>
@@ -163,7 +163,7 @@ COPY /Y "$(TargetPath)" "$(SolutionDir).output\$(TargetName).$(PlatformShortName
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <ModuleDefinitionFile><%NAME%>.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>post_mirror.def</ModuleDefinitionFile>
       <ProfileGuidedDatabase>
       </ProfileGuidedDatabase>
     </Link>
@@ -180,10 +180,10 @@ COPY /Y "$(TargetPath)" "$(SolutionDir).output\$(TargetName).$(PlatformShortName
     <ClInclude Include="apoplugin_msvc.h" />
     <ClInclude Include="apoplugin_msvc_novar.h" />
     <ClInclude Include="apoplugin_msvc_var.h" />
-	<ClInclude Include="<%NAME%>.h" />
+	<ClInclude Include="post_mirror.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="<%NAME%>.def" />
+    <None Include="post_mirror.def" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

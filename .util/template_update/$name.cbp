@@ -25,7 +25,6 @@
 			</Target>
 		</Build>
 		<Unit filename="apoplugin.h" />
-		<Unit filename="variables.h" />
 		<Unit filename="<%NAME%>.h" />
 		<Unit filename="apoplugin.c">
 			<Option compilerVar="CC" />

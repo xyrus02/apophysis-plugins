@@ -176,7 +176,6 @@ COPY /Y "$(TargetPath)" "$(SolutionDir).output\$(TargetName).$(PlatformShortName
     <ClCompile Include="apoplugin_msvc.cpp" />
   </ItemGroup>
   <ItemGroup>
-	<ClInclude Include="variables.h" />
     <ClInclude Include="apoplugin_msvc.h" />
     <ClInclude Include="apoplugin_msvc_novar.h" />
     <ClInclude Include="apoplugin_msvc_var.h" />

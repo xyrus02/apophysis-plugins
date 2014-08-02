@@ -13,6 +13,8 @@
 :ExpandProject
 	"%UtilDir%\txpand" -w "%LocalDir%\~tmp" -o "%LocalDir%" -t "%UtilDir%\template" %1
 	if not exist "%LocalDir%\~tmp" goto ExitScript
+	set /p name=<"%LocalDir%\~tmp"
 	if exist "%LocalDir%\~tmp" del /q "%LocalDir%\~tmp"
-	
+	"%UtilDir%\svn.exe" add ".\%name%"
+
 :ExitScript

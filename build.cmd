@@ -2,22 +2,23 @@
 
 :SetupEnvironment
 	if "%1"=="" goto PrintErrorAndExit
+	set t=%~n1
 
 :ExecuteMsBuild
 	set MsBuildLocation=%WinDir%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe
 	set MsBuildParams=/NOLOGO /property:Configuration=Release /VERBOSITY:normal
 
-	if not exist "%~d0%~p0%1\%1.vcxproj" goto ExecuteMinGw
+	if not exist "%~d0%~p0%t%\%t%.vcxproj" goto ExecuteMinGw
 	if not exist "%MsBuildLocation%" goto NoMsBuild
 	
-	"%MsBuildLocation%" %MsBuildParams% /property:Platform=Win32 "%~d0%~p0%1\%1.vcxproj"
-	"%MsBuildLocation%" %MsBuildParams% /property:Platform=x64 "%~d0%~p0%1\%1.vcxproj"
+	"%MsBuildLocation%" %MsBuildParams% /property:Platform=Win32 "%~d0%~p0%t%\%t%.vcxproj"
+	"%MsBuildLocation%" %MsBuildParams% /property:Platform=x64 "%~d0%~p0%t%\%t%.vcxproj"
 	
-	if not exist "%~d0%~p0%1\.output" goto ErrorRunningMsBuild
+	if not exist "%~d0%~p0%t%\.output" goto ErrorRunningMsBuild
 	if not exist "%~d0%~p0.output" mkdir "%~d0%~p0.output"
 	
-	copy /y "%~d0%~p0%1\.output\*.dll" "%~d0%~p0.output" 
-	rmdir /s /q "%~d0%~p0%1\.output"
+	copy /y "%~d0%~p0%t%\.output\*.dll" "%~d0%~p0.output" 
+	rmdir /s /q "%~d0%~p0%t%\.output"
 	
 	goto ExecuteMinGw
 	
@@ -26,28 +27,28 @@
 	goto ExecuteMinGw
 	
 :ErrorRunningMsBuild
-	echo Warning: error while building "%~d0%~p0%1\%1.vcxproj" with MSBuild!
+	echo Warning: error while building "%~d0%~p0%t%\%t%.vcxproj" with MSBuild!
 	goto ExecuteMinGw
 	
 :ExecuteMinGw
-	if not exist "%~d0%~p0%1\apoplugin.c" goto ExitGracefully
+	if not exist "%~d0%~p0%t%\apoplugin.c" goto ExitGracefully
 
-	if not exist "%~d0%~p0%1\bin" mkdir "%~d0%~p0%1\bin"
-	if not exist "%~d0%~p0%1\obj" mkdir "%~d0%~p0%1\obj"
+	if not exist "%~d0%~p0%t%\bin" mkdir "%~d0%~p0%t%\bin"
+	if not exist "%~d0%~p0%t%\obj" mkdir "%~d0%~p0%t%\obj"
 	
-	"%~d0%~p0.util\.mingw\bin\mingw32-gcc.exe" -O2 -Wall -DBUILD_DLL -c "%~d0%~p0%1\apoplugin.c" -o "%~d0%~p0%1\obj\apoplugin.o"
-	if not exist "%~d0%~p0%1\obj\apoplugin.o" goto ErrorRunningMinGw
+	"%~d0%~p0.util\.mingw\bin\mingw32-gcc.exe" -O2 -Wall -DBUILD_DLL -c "%~d0%~p0%t%\apoplugin.c" -o "%~d0%~p0%t%\obj\apoplugin.o"
+	if not exist "%~d0%~p0%t%\obj\apoplugin.o" goto ErrorRunningMinGw
 	
-	"%~d0%~p0.util\.mingw\bin\mingw32-g++.exe" -shared -Wl,--output-def="%~d0%~p0%1\obj\apoplugin.def" -Wl,--out-implib="%~d0%~p0%1\obj\apoplugin.a" -Wl,--dll "%~d0%~p0%1\obj\apoplugin.o" -o "%~d0%~p0%1\bin\%1.dll" -s -luser32
-	if not exist "%~d0%~p0%1\bin\%1.dll" goto ErrorRunningMinGw
+	"%~d0%~p0.util\.mingw\bin\mingw32-g++.exe" -shared -Wl,--output-def="%~d0%~p0%t%\obj\apoplugin.def" -Wl,--out-implib="%~d0%~p0%t%\obj\apoplugin.a" -Wl,--dll "%~d0%~p0%t%\obj\apoplugin.o" -o "%~d0%~p0%t%\bin\%t%.dll" -s -luser32
+	if not exist "%~d0%~p0%t%\bin\%t%.dll" goto ErrorRunningMinGw
 	
 	if not exist "%~d0%~p0.output" mkdir "%~d0%~p0.output"
-	copy /y "%~d0%~p0%1\bin\%1.dll" "%~d0%~p0.output\%1.legacy.dll" 
+	copy /y "%~d0%~p0%t%\bin\%t%.dll" "%~d0%~p0.output\%t%.legacy.dll" 
 	
 	goto ExitGracefully
 
 :ErrorRunningMinGw
-	echo Warning: error while building "%~d0%~p0%1\%1.c" with MinGW!
+	echo Warning: error while building "%~d0%~p0%t%\%t%.c" with MinGW!
 	goto ExitGracefully
 
 :ExitGracefully

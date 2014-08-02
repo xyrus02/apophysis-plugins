@@ -20,8 +20,6 @@
 #ifndef _APOPLUGIN_H_
 #define _APOPLUGIN_H_
 
-#define _USE_MATH_DEFINES
-
 #include <malloc.h>
 #include <math.h>
 #include <time.h>

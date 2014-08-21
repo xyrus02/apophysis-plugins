@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "x-sph3D", "x-sph3D.vcxproj", "{4197B2FE-02F7-41BC-97BA-F826E70EB67D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sph3D", "sph3D.vcxproj", "{4197B2FE-02F7-41BC-97BA-F826E70EB67D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

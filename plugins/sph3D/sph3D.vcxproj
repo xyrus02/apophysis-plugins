@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4197b2fe-02f7-41bc-97ba-f826e70eb67d}</ProjectGuid>
-    <RootNamespace>x-sph3D</RootNamespace>
-    <ProjectName>x-sph3D</ProjectName>
+    <RootNamespace>sph3D</RootNamespace>
+    <ProjectName>sph3D</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -97,7 +97,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ModuleDefinitionFile>x-sph3D.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>sph3D.def</ModuleDefinitionFile>
       <ProfileGuidedDatabase>
       </ProfileGuidedDatabase>
     </Link>
@@ -117,7 +117,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ModuleDefinitionFile>x-sph3D.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>sph3D.def</ModuleDefinitionFile>
       <ProfileGuidedDatabase>
       </ProfileGuidedDatabase>
     </Link>
@@ -139,7 +139,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <ModuleDefinitionFile>x-sph3D.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>sph3D.def</ModuleDefinitionFile>
       <ProfileGuidedDatabase>
       </ProfileGuidedDatabase>
     </Link>
@@ -163,7 +163,7 @@ COPY /Y "$(TargetPath)" "$(SolutionDir).output\$(TargetName).$(PlatformShortName
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <ModuleDefinitionFile>x-sph3D.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>sph3D.def</ModuleDefinitionFile>
       <ProfileGuidedDatabase>
       </ProfileGuidedDatabase>
     </Link>
@@ -180,10 +180,10 @@ COPY /Y "$(TargetPath)" "$(SolutionDir).output\$(TargetName).$(PlatformShortName
     <ClInclude Include="apoplugin_msvc.h" />
     <ClInclude Include="apoplugin_msvc_novar.h" />
     <ClInclude Include="apoplugin_msvc_var.h" />
-	<ClInclude Include="x-sph3D.h" />
+	<ClInclude Include="sph3D.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="x-sph3D.def" />
+    <None Include="sph3D.def" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

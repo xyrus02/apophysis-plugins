@@ -18,7 +18,7 @@
 	if not exist "%~d0%~p0%root%%project%\.output" goto ErrorRunningMsBuild
 	if not exist "%~d0%~p0%root%..\output" mkdir "%~d0%~p0%root%..\output"
 	
-	copy /y "%~d0%~p0%root%%project%\.output\*.dll" "%~d0%~p0%root%..\output" 
+	copy /y "%~d0%~p0%root%%project%\.output\*.dll" "%~d0%~p0%root%..\output" 1>NUL
 	rmdir /s /q "%~d0%~p0%root%%project%\.output"
 	
 	goto ExecuteMinGw
@@ -32,24 +32,30 @@
 	goto ExecuteMinGw
 	
 :ExecuteMinGw
-	if not exist "%~d0%~p0%root%%project%\apoplugin.c" goto ExitGracefully
+	set t=%root%%project%
 
-	if not exist "%~d0%~p0%root%%project%\bin" mkdir "%~d0%~p0%root%%project%\bin"
-	if not exist "%~d0%~p0%root%%project%\obj" mkdir "%~d0%~p0%root%%project%\obj"
+	if not exist "%~d0%~p0%t%\apoplugin.c" goto ExitGracefully
+
+	if not exist "%~d0%~p0%t%\bin" mkdir "%~d0%~p0%t%\bin"
+	if not exist "%~d0%~p0%t%\obj" mkdir "%~d0%~p0%t%\obj"
 	
-	"%~d0%~p0.util\.mingw\bin\mingw32-gcc.exe" -O2 -Wall -DBUILD_DLL -c "%~d0%~p0%root%%project%\apoplugin.c" -o "%~d0%~p0%root%%project%\obj\apoplugin.o"
-	if not exist "%~d0%~p0%root%%project%\obj\apoplugin.o" goto ErrorRunningMinGw
+	"%~d0%~p0.util\.mingw\bin\mingw32-gcc.exe" -O2 -Wall -DBUILD_DLL -c "%~d0%~p0%t%\apoplugin.c" -o "%~d0%~p0%t%\obj\apoplugin.o"
+	if not exist "%~d0%~p0%t%\obj\apoplugin.o" goto ErrorRunningMinGw
 	
-	"%~d0%~p0.util\.mingw\bin\mingw32-g++.exe" -shared -Wl,--output-def="%~d0%~p0%root%%project%\obj\apoplugin.def" -Wl,--out-implib="%~d0%~p0%root%%project%\obj\apoplugin.a" -Wl,--dll "%~d0%~p0%root%%project%\obj\apoplugin.o" -o "%~d0%~p0%root%%project%\bin\%project%.dll" -s -luser32
-	if not exist "%~d0%~p0%root%%project%\bin\%project%.dll" goto ErrorRunningMinGw
+	"%~d0%~p0.util\.mingw\bin\mingw32-g++.exe" -shared -Wl,--output-def="%~d0%~p0%t%\obj\apoplugin.def" -Wl,--out-implib="%~d0%~p0%t%\obj\apoplugin.a" -Wl,--dll "%~d0%~p0%t%\obj\apoplugin.o" -o "%~d0%~p0%t%\bin\%project%.dll" -s -luser32
+	if not exist "%~d0%~p0%t%\bin\%project%.dll" goto ErrorRunningMinGpp
 	
-	if not exist "%~d0%~p0%root%..\output" mkdir "%~d0%~p0%root%..\output"
-	copy /y "%~d0%~p0%root%%project%\bin\%project%.dll" "%~d0%~p0%root%..\output\%project%.legacy.dll" 
+	if not exist "%~d0%~p0..\output" mkdir "%~d0%~p0..\output"
+	copy /y "%~d0%~p0%t%\bin\%project%.dll" "%~d0%~p0..\output\%project%.legacy.dll"  1>NUL
 	
 	goto ExitGracefully
 
 :ErrorRunningMinGw
 	echo Warning: error while building "%project%" with MinGW!
+	goto ExitGracefully
+	
+:ErrorRunningMinGpp
+	echo Warning: error while linking "%project%" with MinGW!
 	goto ExitGracefully
 
 :ExitGracefully

@@ -102,7 +102,7 @@
       </ProfileGuidedDatabase>
     </Link>
     <PostBuildEvent>
-      <Command>copy /y "$(TargetPath)" "$(ProjectDir)..\.util\.apo\Plugins\$(TargetName).$(PROCESSOR_ARCHITECTURE).dll"</Command>
+      <Command>copy /y "$(TargetPath)" "$(ProjectDir)..\..\sdk\.util\.apo\Plugins\$(TargetName).$(PROCESSOR_ARCHITECTURE).dll"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -122,7 +122,7 @@
       </ProfileGuidedDatabase>
     </Link>
     <PostBuildEvent>
-      <Command>copy /y "$(TargetPath)" "$(ProjectDir)..\.util\.apo\Plugins\$(TargetName).$(PROCESSOR_ARCHITECTURE).dll"</Command>
+      <Command>copy /y "$(TargetPath)" "$(ProjectDir)..\..\sdk\.util\\.apo\Plugins\$(TargetName).$(PROCESSOR_ARCHITECTURE).dll"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -146,7 +146,7 @@
     <PostBuildEvent>
       <Command>IF NOT EXIST "$(SolutionDir).output" MKDIR "$(SolutionDir).output"
 COPY /Y "$(TargetPath)" "$(SolutionDir).output\$(TargetName).$(PlatformShortName)$(TargetExt)
-copy /y "$(TargetPath)" "$(ProjectDir)..\.util\.apo\Plugins\$(TargetName).$(PROCESSOR_ARCHITECTURE).dll"</Command>
+copy /y "$(TargetPath)" "$(ProjectDir)..\..\sdk\.util\\.apo\Plugins\$(TargetName).$(PROCESSOR_ARCHITECTURE).dll"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -171,7 +171,7 @@ copy /y "$(TargetPath)" "$(ProjectDir)..\.util\.apo\Plugins\$(TargetName).$(PROC
     <PostBuildEvent>
       <Command>IF NOT EXIST "$(SolutionDir).output" MKDIR "$(SolutionDir).output"
 COPY /Y "$(TargetPath)" "$(SolutionDir).output\$(TargetName).$(PlatformShortName)$(TargetExt)
-copy /y "$(TargetPath)" "$(ProjectDir)..\.util\.apo\Plugins\$(TargetName).$(PROCESSOR_ARCHITECTURE).dll"</Command>
+copy /y "$(TargetPath)" "$(ProjectDir)..\..\sdk\.util\\.apo\Plugins\$(TargetName).$(PROCESSOR_ARCHITECTURE).dll"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

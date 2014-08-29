@@ -23,7 +23,7 @@
 	"%UtilDir%\txpand" -w "%WorkDir%\~tmp" -o "%WorkDir%" -t "%UtilDir%\template_update" %name%
 	if not exist "%WorkDir%\~tmp" goto ExitScript
 	if exist "%WorkDir%\~tmp" del /q "%WorkDir%\~tmp"
-	copy /y "%1" "%WorkDir%\%name%.h" 1>NUL
+	copy /y "%1" "%WorkDir%\%name%\%name%.h" 1>NUL
 	"%UtilDir%\svn.exe" add "%WorkDir%\%name%"
 	goto ExitScript
 	

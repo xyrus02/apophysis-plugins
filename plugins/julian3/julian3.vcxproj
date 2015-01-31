@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -101,7 +101,7 @@
       <ProfileGuidedDatabase>
       </ProfileGuidedDatabase>
     </Link>
-	<PostBuildEvent>
+    <PostBuildEvent>
       <Command>copy /y "$(TargetPath)" "$(ProjectDir)..\.util\.apo\Plugins\$(TargetName).$(PROCESSOR_ARCHITECTURE).dll</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -121,7 +121,7 @@
       <ProfileGuidedDatabase>
       </ProfileGuidedDatabase>
     </Link>
-	<PostBuildEvent>
+    <PostBuildEvent>
       <Command>copy /y "$(TargetPath)" "$(ProjectDir)..\.util\.apo\Plugins\$(TargetName).$(PROCESSOR_ARCHITECTURE).dll</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -176,11 +176,12 @@ COPY /Y "$(TargetPath)" "$(SolutionDir).output\$(TargetName).$(PlatformShortName
     <ClCompile Include="apoplugin_msvc.cpp" />
   </ItemGroup>
   <ItemGroup>
-	<ClInclude Include="variables.h" />
+    <ClInclude Include="variables.h" />
     <ClInclude Include="apoplugin_msvc.h" />
     <ClInclude Include="apoplugin_msvc_novar.h" />
     <ClInclude Include="apoplugin_msvc_var.h" />
-	<ClInclude Include="julian3.h" />
+    <ClInclude Include="julian3.h" />
+    <ClInclude Include="variable_info.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="julian3.def" />

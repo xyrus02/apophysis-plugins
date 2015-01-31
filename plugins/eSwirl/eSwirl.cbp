@@ -26,6 +26,7 @@
 		</Build>
 		<Unit filename="apoplugin.h" />
 		<Unit filename="variables.h" />
+		<Unit filename="variable_info.h" />
 		<Unit filename="eSwirl.h" />
 		<Unit filename="apoplugin.c">
 			<Option compilerVar="CC" />

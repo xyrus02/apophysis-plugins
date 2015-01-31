@@ -25,6 +25,7 @@
 			</Target>
 		</Build>
 		<Unit filename="apoplugin.h" />
+		<Unit filename="variable_info.h" />
 		<Unit filename="bwraps.h" />
 		<Unit filename="apoplugin.c">
 			<Option compilerVar="CC" />

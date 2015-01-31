@@ -14,3 +14,4 @@ EXPORTS
 	PluginVarInit
 	PluginVarInit3D
 	PluginVarInitDC
+	PluginVarQueryVariableInfo

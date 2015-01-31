@@ -1,0 +1,53 @@
+Index: <%NAME%>.cbp
+===================================================================
+--- <%NAME%>.cbp	(revision 45)
++++ <%NAME%>.cbp	(working copy)
+@@ -25,6 +25,7 @@
+ 			</Target>
+ 		</Build>
+ 		<Unit filename="apoplugin.h" />
++		<Unit filename="variable_info.h" />
+ 		<Unit filename="<%NAME%>.h" />
+ 		<Unit filename="apoplugin.c">
+ 			<Option compilerVar="CC" />
+Index: <%NAME%>.def
+===================================================================
+--- <%NAME%>.def	(revision 45)
++++ <%NAME%>.def	(working copy)
+@@ -13,4 +13,5 @@
+ 	PluginVarDestroy
+ 	PluginVarInit
+ 	PluginVarInit3D
+-	PluginVarInitDC
+\ No newline at end of file
++	PluginVarInitDC
++	PluginVarQueryVariableInfo
+\ No newline at end of file
+Index: $name.vcxproj
+===================================================================
+--- <%NAME%>.vcxproj	(revision 45)
++++ <%NAME%>.vcxproj	(working copy)
+@@ -176,6 +176,7 @@
+     <ClCompile Include="apoplugin_msvc.cpp" />
+   </ItemGroup>
+   <ItemGroup>
++	<ClInclude Include="variable_info.h" />
+     <ClInclude Include="apoplugin_msvc.h" />
+     <ClInclude Include="apoplugin_msvc_novar.h" />
+     <ClInclude Include="apoplugin_msvc_var.h" />
+Index: apoplugin.c
+===================================================================
+--- apoplugin.c	(revision 45)
++++ apoplugin.c	(working copy)
+@@ -1 +1,2 @@
+ #include "<%NAME%>.h"
++#include "variable_info.h"
+Index: apoplugin_msvc.cpp
+===================================================================
+--- apoplugin_msvc.cpp	(revision 45)
++++ apoplugin_msvc.cpp	(working copy)
+@@ -1,2 +1,4 @@
+ #define _APOMSVC
+ #include "<%NAME%>.h"
++#include "variable_info.h"
++

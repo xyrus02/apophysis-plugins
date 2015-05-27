@@ -1,0 +1,197 @@
+\documentclass[]{article}
+
+%opening
+\title{curl2 - An extension of Apophysis' curl-variation}
+\author{Georg Kiehne}
+
+\begin{document}
+
+\maketitle
+
+\section{Specification}
+	
+\noindent Our aim is to create a variation working in a higher dimension than \emph{curl}. Important is, that we don't understand "higher dimension" as something like \emph{"curl3D"} (which, by the way, already exists), but instead, a higher order in a polynomial equation within the complex number space. \\
+
+\noindent Before we begin, we have to say a word about how complex numbers are utilized in Apophysis usually. The reader should have basic knowledge about what a complex number is and how it works. \\
+
+\noindent A complex number $z$ can be written as:
+
+\begin{flushleft}
+	\hspace{20pt} z = a + bi
+\end{flushleft}
+
+\noindent where a is the real part, b the imaginary part and i the imaginary unit $i = \sqrt{1}$. \\
+
+\noindent  In Apophysis, it is habit to interpret the real part as the x-coordinate and the imaginary part as the y-coordinate. This is why we will write x and y, not a and b in the rest of this document.
+
+\noindent Now back to the variation. Right now, \emph{curl} is defined as:
+
+\begin{flushleft}
+	\hspace{20pt} $f$(z) = $\frac{z}{c_2z^2 + c_1z + 1}$ where $z = x + iy$
+\end{flushleft}
+
+\noindent As we can see, the denominator of the fraction represents a polynomial equation of the second order similar to $y = ax^2 + bx + c$. What we would do now is that we raise the denominator to a polynomial equation of the third order $y = ax^3 + bx^2 + cx + d$:
+
+\begin{flushleft}
+	\hspace{20pt} $f$(z) = $\frac{z}{c_3z^3 + c_2z^2 + c_1z + 1}$ where $z = x + iy$
+\end{flushleft}
+
+\pagebreak
+
+\section{Approach}
+
+Essentially, we have to take the polynomial equation above and break it down. We first determine $z^2$, then $z^3$ and finally, we compose it into our new variation equation. \\
+
+\noindent To square a complex number $z$, we use the first binomial formula:
+
+\begin{flushleft}
+	\hspace{20pt} $(a + b)^2 = (a + b)(a + b) = a^2 + 2ab + b²$
+\end{flushleft}
+
+\noindent Therefore:
+
+\begin{flushleft}
+	\hspace{20pt} $z^2 = (x + iy)^2 = x^2 + 2xyi + (yi)^2$
+\end{flushleft}
+
+\noindent We assume $i^2 = -1$ because $i = \sqrt{-1}$ and simplify to:
+
+\begin{flushleft}
+	\hspace{20pt} $z^2 = x^2 + 2xyi - y^2 $
+\end{flushleft}
+
+\noindent Cubing a complex number works the same way:
+
+\begin{flushleft}
+	\hspace{20pt} $(a + b)^3 = (a + b)(a + b)(a + b) = a^3 + 3a^2b + 3ab^2 + b^3$
+\end{flushleft}
+
+\noindent Therefore:
+
+\begin{flushleft}
+	\hspace{20pt} $z^3 = (x + iy)^3 = x^3 + 3x^2yi + 3x(yi)^2 + (yi)^3$
+\end{flushleft}
+
+\noindent Assuming $i^3 = -i$ because $i^2 = -1$ and $i^3 = i^2 \cdot i$:
+
+\begin{flushleft}
+	\hspace{20pt} $z^3 = x^3 + 3x^2yi - 3xy^2 - y^3i$
+\end{flushleft}
+
+\noindent Technically, we could start building our formula for the new variation now but before we insert into our fraction from above, I would like to take it apart:
+
+\begin{flushleft}
+	\hspace{20pt} f(z) = $\frac{z}{c_3z^3 + c_2z^2 + c_1z + 1} = \frac{z}{q}$
+\end{flushleft}
+
+\noindent and focus on $q$ for simplicity since we won't change the nominator. Let's expand the denominator then:
+
+\begin{flushleft}
+	\hspace{20pt} $q = c_3z^3 + c_2z^2 + c_1z + 1$ \\
+	\medskip
+	\hspace{20pt} $q = c_3(x^3 + 3x^2yi - 3xy^2 - y^3i) + c_2(x^2 + 2xyi - y^2) + c_1(x + yi) + 1$ \\
+	\medskip
+	\hspace{20pt} $q = c_3x^3 + c_3x^2yi - 3c_3xy^2 - c_3y^3i + c_2x^2 + 2c_2xyi - c_2y^2 + c_1x + c_1yi + 1 $
+\end{flushleft}
+
+\pagebreak
+
+\noindent Finally, we substitute back into the fraction $f(z) = \frac{z}{q}$:
+
+\begin{flushleft}
+	\hspace{20pt} $f(z) = \frac{x + yi}{(c_3x^3 - 3c_3xy^2 + c_2x^2 - c_2y^2 + c_1x + 1) + (c_3x^2y - c_3y^3 + 2c_2xy + c_1y) * i}$ \\
+\end{flushleft}
+
+\noindent To separate the real from the imaginary part, we have to factor our $i$ from the whole fraction. If we look closely, we have a fraction in the form of:
+
+\begin{flushleft}
+	\hspace{20pt} $f(z) = \frac{a + bi}{c + di}$ \\
+\end{flushleft}
+
+\noindent We now have a division of two complex numbers $a + bi$ and $c + di$ so we determine the conjugate of $c + di$:
+
+\begin{flushleft}
+	\hspace{20pt} $\overline{c+d_i} = c - di $ \\
+\end{flushleft}
+
+\noindent We multiply numerator and denumerator by the conjugate:
+
+\begin{flushleft}
+	\hspace{20pt} $f(z) = \frac{a + bi}{c + di} \cdot \frac{c - di}{c - di} $ \\
+	\medskip
+	\hspace{20pt}\hspace{2.5em}$= \frac{ac - adi + bci - bdi^2}{c^2 - cdi + cdi - d^2i^2}$ \\
+	\medskip
+	\hspace{20pt}\hspace{2.5em}$= \frac{ac - adi + bci + bd}{c^2 + d^2}$ \\
+	\medskip
+	\hspace{20pt}\hspace{2.5em}$= \frac{ac + bd}{c^2 + d^2} + i \cdot \frac{bc - ad}{c^2 + d^2}$
+\end{flushleft}
+
+\noindent Now we will have to substitute the below back in our resulting fraction sum:
+
+\begin{flushleft}
+	\hspace{20pt} $a = x$, \\
+	\hspace{20pt} $b = y$, \\
+	\hspace{20pt} $c = c_3x^3 - 3c_3xy^2 + c_2x^2 - c_2y^2 + c_1x + 1$, \\
+	\hspace{20pt} $d = c_3x^2y - c_3y^3 + 2c_2xy + c_1y$ \\
+\end{flushleft}
+
+\noindent We can imagine, that actually writing out the entire fraction with the expressions above substituted back in would take up a lot of writing work and paper space. This would be the point where it makes sense to remember that we are writing a computer program. \\
+
+\noindent In an Apophysis extension, we would calculate the result of $c$ and $d$ as well as $c^2 + d^2$ in the first step and then proceed with the rest of the expression. There is no necessity to calculate the entire result in a single expression like we would do in the academical-mathematical world. \\
+
+\noindent In order to extract a meaningful output for eventual plotting and/or the input of the next iteration, we would use the following method:
+
+\begin{flushleft}
+	\hspace{20pt} $ x' = x + \omega * Re(z') $\\
+	\medskip
+	\hspace{20pt} $ y' = y + \omega * Im(z') $
+\end{flushleft}
+
+\pagebreak
+
+\noindent We define $\omega:=$ as the variation's density and assume it a constant at this point. Then we use some knowledge from \emph{Inverse Geometry} (Frank Morley and son, 1933) and assume:
+
+\begin{flushleft}
+	\hspace{20pt} $ Re(z') = \frac{z' + \overline{z'}}{2} $ \\
+	\medskip
+	\hspace{20pt} $ Im(z') = \frac{z' - \overline{z'}}{2i} $
+\end{flushleft}
+
+\noindent Remembering our expression from above:
+
+\begin{flushleft}
+	\hspace{20pt} $ z' = f(z) = \frac{ac + bd}{c^2 + d^2} + i \cdot \frac{bc - ad}{c^2 + d^2}
+	 $
+\end{flushleft}
+
+\noindent We will receive:
+
+\begin{flushleft}
+	\hspace{20pt} $ Re(z') = \frac{ac + bd}{c^2 + d^2} $ \\
+	\medskip
+	\hspace{20pt} $ Im(z') = \frac{bc + ad}{c^2 + d^2} $
+\end{flushleft}
+
+\noindent And therefore:
+
+\begin{flushleft}
+	\hspace{20pt} $ x' = x + \omega \cdot \frac{ac + bd}{c^2 + d^2} $ \\
+	\medskip
+	\hspace{20pt} $ y' = y + \omega \cdot \frac{bc + ad}{c^2 + d^2} $
+\end{flushleft}
+
+\noindent The above set of equations (together with the correct substitutions for a, b, c, d) are fit to be used in the source code of an Apophysis extension.
+
+\section{Optimizations}
+
+The resulting variation should be easy to implement with simple algebra. Like with \emph{curl}, several optimizations can be made. The most straightforward approach is to separate the following cases outside the iteration loop:
+
+\begin{flushleft}
+	\hspace{20pt} a.) $c_1 = 0$ \\	
+	\hspace{20pt} b.) $c_2 = 0$ \\
+	\hspace{20pt} c.) $c_1 = c_2 = 0$ \\
+\end{flushleft}	
+
+\noindent Precalculating $3c_3$ and $2c_2$ is reasonable as well since, while being extremely simple operations, these two multiplications can have a reasonable weight considering that they would be potentially executed multiple million times per second.
+
+\end{document}

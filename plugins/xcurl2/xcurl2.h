@@ -1,5 +1,5 @@
 /*
-    Apophysis Plugin: curl2
+    Apophysis Plugin: xcurl2
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ inline double cub(const double x) { return x * x * x; }
 
 int PluginVarCalc(Variation* vp)
 {
-	// z³ = x³ + 3x²iy + -3x - i
+	// old, probably wrong version of curl2...
 
 	const double re = 1 + 
 		VAR(xcurl2_c1) * (FTx) + 

@@ -49,7 +49,7 @@ int PluginVarCalc(Variation* vp)
 	const double r = VVAR / (sqr(re) + sqr(im));
 	
 	SET(x_out, (x_in * re + y_in * im) * r);
-	SET(y_out, (y_in * re + x_in * im) * r);
+	SET(y_out, (y_in * re - x_in * im) * r);
 	
 	#if defined(set_z)
 		SET(z_out, (VVAR * z_in));

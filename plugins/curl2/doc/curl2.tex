@@ -1,18 +1,26 @@
 \documentclass[]{article}
+\usepackage{url}
 
 %opening
-\title{curl2 - An extension of Apophysis' curl-variation}
+\title{Expanding the \emph{curl}-function into $C^3$}
 \author{Georg Kiehne}
+\date{May 29, 2015}
 
 \begin{document}
-
+	
 \maketitle
 
-\section{Specification}
-	
-\noindent Our aim is to create a variation working in a higher dimension than \emph{curl}. Important is, that we don't understand "higher dimension" as something like \emph{"curl3D"} (which, by the way, already exists), but instead, a higher order in a polynomial equation within the complex number space. \\
+\section{Introduction}
 
-\noindent Before we begin, we have to say a word about how complex numbers are utilized in Apophysis usually. The reader should have basic knowledge about what a complex number is and how it works. \\
+\noindent This document describes the expansion of an existing complex polynomial named \emph{curl}. \emph{curl} was written as a so called "variation" for an image generation algorithm named "Fractal Flames" \footnote{\url{http://flam3.com/flame_draves.pdf}}
+
+\noindent One particular implementation of the fractal flame algorithm is resided in the software Apophysis\footnote{\url{http://apophysis.org}} in which I have a history of contributions to both, the program itself and several external packages ("plugins") which add additional variations to the software.
+
+\section{Approach}
+	
+\noindent The aim is to create a variation working in a higher dimension than \emph{curl}. It is important that one doesn't understand "higher dimension" as something like \emph{curl3D} (which also already exists), but rather a higher order in a polynomial equation within the complex number space. \\
+
+\noindent Before starting, it is essential to understand how complex numbers are utilized in Apophysis and fractal flame implementations in general. The reader should also have basic knowledge about what a complex number is and how it works. \\
 
 \noindent A complex number $z$ can be written as:
 
@@ -22,27 +30,31 @@
 
 \noindent where a is the real part, b the imaginary part and i the imaginary unit $i = \sqrt{1}$. \\
 
-\noindent  In Apophysis, it is habit to interpret the real part as the x-coordinate and the imaginary part as the y-coordinate. This is why we will write x and y, not a and b in the rest of this document.
+\noindent  In Apophysis, it is habit to interpret the real part as the x-coordinate and the imaginary part as the y-coordinate. This is why the document refers to x and y, not a and b from now on.
 
-\noindent Now back to the variation. Right now, \emph{curl} is defined as:
+\noindent Currently, \emph{curl} is defined as:
 
 \begin{flushleft}
 	\hspace{20pt} $f$(z) = $\frac{z}{c_2z^2 + c_1z + 1}$ where $z = x + iy$
 \end{flushleft}
 
-\noindent As we can see, the denominator of the fraction represents a polynomial equation of the second order similar to $y = ax^2 + bx + c$. What we would do now is that we raise the denominator to a polynomial equation of the third order $y = ax^3 + bx^2 + cx + d$:
+\noindent As it is obvious, the denominator of the fraction represents a polynomial equation of second order similar to $y = ax^2 + bx + c$. The denominator is raised to a polynomial equation of third order: 
+
+\begin{flushleft}
+	\hspace{20pt} $y = ax^3 + bx^2 + cx + d$\\
+\end{flushleft}
+
+\noindent Resulting in:
 
 \begin{flushleft}
 	\hspace{20pt} $f$(z) = $\frac{z}{c_3z^3 + c_2z^2 + c_1z + 1}$ where $z = x + iy$
 \end{flushleft}
 
-\pagebreak
+\section{Derivation}
 
-\section{Approach}
+Essentially, the polynomial equation is now to be broken down. This is done by first determining $z^2$, then $z^3$ and finally, composing it into a complete variation equation. \\
 
-Essentially, we have to take the polynomial equation above and break it down. We first determine $z^2$, then $z^3$ and finally, we compose it into our new variation equation. \\
-
-\noindent To square a complex number $z$, we use the first binomial formula:
+\noindent To square a complex number $z$, the first binomial formula is useful:
 
 \begin{flushleft}
 	\hspace{20pt} $(a + b)^2 = (a + b)(a + b) = a^2 + 2ab + b²$
@@ -54,13 +66,13 @@ Essentially, we have to take the polynomial equation above and break it down. We
 	\hspace{20pt} $z^2 = (x + iy)^2 = x^2 + 2xyi + (yi)^2$
 \end{flushleft}
 
-\noindent We assume $i^2 = -1$ because $i = \sqrt{-1}$ and simplify to:
+\noindent Assuming $i^2 = -1$ because $i = \sqrt{-1}$ and simplifying to:
 
 \begin{flushleft}
 	\hspace{20pt} $z^2 = x^2 + 2xyi - y^2 $
 \end{flushleft}
 
-\noindent Cubing a complex number works the same way:
+\noindent Cubing a complex number is performed using the same principle:
 
 \begin{flushleft}
 	\hspace{20pt} $(a + b)^3 = (a + b)(a + b)(a + b) = a^3 + 3a^2b + 3ab^2 + b^3$
@@ -78,13 +90,13 @@ Essentially, we have to take the polynomial equation above and break it down. We
 	\hspace{20pt} $z^3 = x^3 + 3x^2yi - 3xy^2 - y^3i$
 \end{flushleft}
 
-\noindent Technically, we could start building our formula for the new variation now but before we insert into our fraction from above, I would like to take it apart:
+\noindent As all necessary terms are collected, it would now be possible to compose the complete variation formula. Since the numerator won't change, the focus is on the denominator. Therefore substituting:
 
 \begin{flushleft}
 	\hspace{20pt} f(z) = $\frac{z}{c_3z^3 + c_2z^2 + c_1z + 1} = \frac{z}{q}$
 \end{flushleft}
 
-\noindent and focus on $q$ for simplicity since we won't change the nominator. Let's expand the denominator then:
+\noindent Then continuing on $q$:
 
 \begin{flushleft}
 	\hspace{20pt} $q = c_3z^3 + c_2z^2 + c_1z + 1$ \\
@@ -96,25 +108,33 @@ Essentially, we have to take the polynomial equation above and break it down. We
 
 \pagebreak
 
-\noindent Finally, we substitute back into the fraction $f(z) = \frac{z}{q}$:
+\noindent Substituting back into $f(z) = \frac{z}{q}$:
 
 \begin{flushleft}
 	\hspace{20pt} $f(z) = \frac{x + yi}{(c_3x^3 - 3c_3xy^2 + c_2x^2 - c_2y^2 + c_1x + 1) + (c_3x^2y - c_3y^3 + 2c_2xy + c_1y) * i}$ \\
 \end{flushleft}
 
-\noindent To separate the real from the imaginary part, we have to factor out $i$ from the whole fraction. If we look closely, we have a fraction in the form of:
+\noindent The algorithm requires a separate treatment of real and imaginary part. In order to gain two separate terms, it is necessary to factor out $i$. The most straightforward approach is to view the above term as a division of two arbitrary complex numbers, factor out $i$. Therefore:
+
+\begin{flushleft}
+	\hspace{20pt} $z_1 = a + bi$ \\
+	\medskip
+	\hspace{20pt} $z_2 = c + di$:
+\end{flushleft}
+
+\noindent Assuming $a = x$ and $b = y$ because $f(z) = \frac{z}{q} = \frac{x + iy}{q}$. Therefore
 
 \begin{flushleft}
 	\hspace{20pt} $f(z) = \frac{a + bi}{c + di}$ \\
 \end{flushleft}
 
-\noindent We now have a division of two complex numbers $a + bi$ and $c + di$ so we determine the conjugate of $c + di$:
+\noindent Conjugating the denominator:
 
 \begin{flushleft}
 	\hspace{20pt} $\overline{c+di} = c - di $ \\
 \end{flushleft}
 
-\noindent We multiply numerator and denominator by the conjugate:
+\noindent Multiplying numerator and denominator with the conjugate:
 
 \begin{flushleft}
 	\hspace{20pt} $f(z) = \frac{a + bi}{c + di} \cdot \frac{c - di}{c - di} $ \\
@@ -126,7 +146,7 @@ Essentially, we have to take the polynomial equation above and break it down. We
 	\hspace{20pt}\hspace{2.5em}$= \frac{ac + bd}{c^2 + d^2} + i \cdot \frac{bc - ad}{c^2 + d^2}$
 \end{flushleft}
 
-\noindent Now we will have to substitute the below back into our resulting fraction sum:
+\noindent Resulting in:
 
 \begin{flushleft}
 	\hspace{20pt} $a = x$, \\
@@ -135,44 +155,40 @@ Essentially, we have to take the polynomial equation above and break it down. We
 	\hspace{20pt} $d = c_3x^2y - c_3y^3 + 2c_2xy + c_1y$ \\
 \end{flushleft}
 
-\noindent We can imagine, that actually writing out the entire fraction with the expressions above substituted back into it would take a lot of writing work and paper space. This would be the point where it makes sense to remember that we are writing a computer program. \\
+\noindent Substituting back into $f(z) = \frac{z}{q}$ is left optional, as computer programs can utilize the intermediate results of $a$, $b$, $c$ and $d$ stored in memory to perform the calculation from there on.
 
-\noindent In an Apophysis extension, we would calculate the result of $c$ and $d$ as well as $c^2 + d^2$ in the first step and then proceed with the rest of the expression. There is no necessity to provide the entire result in a single expression like we would do in the academical-mathematical world. \\
-
-\noindent In order to extract a meaningful output for eventual plotting and/or the input of the next iteration, we would use the following method:
+\noindent In order to extract a meaningful output for eventual plotting and/or the input of the next iteration, the following quasi-standard approach can be used:
 
 \begin{flushleft}
-	\hspace{20pt} $ x' = x + \omega * Re(z') $\\
+	\hspace{20pt} $ x' = x + \omega * R(z') $\\
 	\medskip
-	\hspace{20pt} $ y' = y + \omega * Im(z') $
+	\hspace{20pt} $ y' = y + \omega * I(z') $
 \end{flushleft}
 
-\pagebreak
-
-\noindent We define $\omega:=$ as the variation's density and assume it a constant at this point. Then we use some knowledge from \emph{Inverse Geometry} (Frank Morley and son, 1933) and assume:
+\noindent $\omega:=$ being a constant representing the variation's "density" parameter and $R$, $I$ being functions as described in \emph{Inverse Geometry}\footnote{Frank Morley and son, 1933}:
 
 \begin{flushleft}
-	\hspace{20pt} $ Re(z') = \frac{z' + \overline{z'}}{2} $ \\
+	\hspace{20pt} $ R(z') = \frac{z' + \overline{z'}}{2} $ \\
 	\medskip
-	\hspace{20pt} $ Im(z') = \frac{z' - \overline{z'}}{2i} $
+	\hspace{20pt} $ I(z') = \frac{z' - \overline{z'}}{2i} $
 \end{flushleft}
 
-\noindent Remembering our expression from above:
+\noindent Inserting into the above term:
 
 \begin{flushleft}
 	\hspace{20pt} $ z' = f(z) = \frac{ac + bd}{c^2 + d^2} + i \cdot \frac{bc - ad}{c^2 + d^2}
 	 $
 \end{flushleft}
 
-\noindent We will receive:
+\noindent Resulting in:
 
 \begin{flushleft}
-	\hspace{20pt} $ Re(z') = \frac{ac + bd}{c^2 + d^2} $ \\
+	\hspace{20pt} $ R(z') = \frac{ac + bd}{c^2 + d^2} $ \\
 	\medskip
-	\hspace{20pt} $ Im(z') = \frac{bc + ad}{c^2 + d^2} $
+	\hspace{20pt} $ I(z') = \frac{bc + ad}{c^2 + d^2} $
 \end{flushleft}
 
-\noindent And therefore:
+\noindent Therefore:
 
 \begin{flushleft}
 	\hspace{20pt} $ x' = x + \omega \cdot \frac{ac + bd}{c^2 + d^2} $ \\
@@ -180,11 +196,11 @@ Essentially, we have to take the polynomial equation above and break it down. We
 	\hspace{20pt} $ y' = y + \omega \cdot \frac{bc + ad}{c^2 + d^2} $
 \end{flushleft}
 
-\noindent The above set of equations (together with the correct substitutions for a, b, c, d) are fit to be used in the source code of an Apophysis extension.
+\noindent The terms (together with the correct substitutions for a, b, c, d) are fit to be used in the source code of an Apophysis extension.
 
 \section{Optimizations}
 
-The resulting variation should be easy to implement with simple algebra. Like with \emph{curl}, several optimizations can be made. The most straightforward approach is to separate the following cases outside the iteration loop:
+The resulting variation is trivial to implement. Like with \emph{curl}, several optimizations can be made. The most straightforward approach is to separately treat the following special cases:
 
 \begin{flushleft}
 	\hspace{20pt} a.) $c_1 = 0$ \\	
@@ -193,6 +209,17 @@ The resulting variation should be easy to implement with simple algebra. Like wi
 	\hspace{20pt} d.) Any combination of the above \\
 \end{flushleft}	
 
-\noindent Precalculating $3c_3$ and $2c_2$ is reasonable as well since, while being extremely simple operations, these two multiplications can have a reasonable weight considering that they would be potentially executed multiple million times per second.
+\noindent Precalculating $3c_3$ and $2c_2$ is recommendable. While being simple terms, the repeated and unnecessary multiplication has a reasonable weight, considering that they would be potentially executed billion million times per second.
+
+\section{Conclusions}
+
+After sufficiently simplifying the terms, an implementation of a 3rd-order polynomial \emph{curl}-variation becomes trivial enough to promise high performance batch calculations, assuming that the host code is efficient enough. The only requirement posed to the host is the ability to provide floating-point parameters as the calculation would otherwise reduce to $f(z) = z$.
+
+\section{Appendix: Implementation for Apophysis}
+
+An implementation in C can be found at:
+\begin{flushleft}
+	\hspace{20pt}\url{https://gist.github.com/xyrus02/2e1b5c2777d1f2b1b8a084d0b747bcd2}
+\end{flushleft}
 
 \end{document}
